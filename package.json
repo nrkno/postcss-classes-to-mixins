@@ -1,0 +1,30 @@
+{
+  "name": "postcss-classes-to-mixins",
+  "version": "0.0.1",
+  "description": "PostCSS plugin to intelligently convert CSS classes to SASS, Less and Stylus mixins",
+  "private": true,
+  "main": "index.js",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "css",
+    "class",
+    "classes",
+    "mixins",
+    "sass",
+    "less",
+    "stylus",
+    "plugin"
+  ],
+  "scripts": {},
+  "homepage": "https://github.com/htor/postcss-classes-to-mixins",
+  "author": "NRK <opensource@nrk.no> (https://www.nrk.no/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/htor/postcss-classes-to-mixins/issues"
+  },
+  "dependencies": {
+    "postcss": "7.0.6"
+  }
+}

@@ -1,0 +1,15 @@
+.DS_Store
+.npm
+.vscode
+.idea
+node_modules/
+npm-debug*
+yarn-error*
+*.code-workspace
+*.tar
+*.tgz
+**/*.min.js
+**/*.jsx.js
+**/*.cjs.js
+**/*.js.map
+**/jsx.js
