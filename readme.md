@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-npm install @nrk/postcss-classes-to-mixins
+npm install postcss-classes-to-mixins
 ```
 
 ## Example
