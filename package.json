@@ -1,6 +1,6 @@
 {
   "name": "postcss-classes-to-mixins",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "PostCSS plugin to intelligently convert CSS classes to SASS, Less and Stylus mixins",
   "main": "index.js",
   "keywords": [
