@@ -24,7 +24,9 @@
     "publish:patch": "npm version patch -m 'Release patch %s' && npm run push",
     "publish:minor": "npm version minor -m 'Release minor %s' && npm run push",
     "publish:major": "npm version major -m 'Release major %s' && npm run push",
-    "push": "git commit -am \"Update version number\" && git push && git push --tags && npm publish"
+    "push": "git commit -am \"Update version number\" && git push && git push --tags && npm publish",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "homepage": "https://github.com/nrkno/postcss-classes-to-mixins/",
   "author": "NRK <opensource@nrk.no> (https://www.nrk.no/)",
@@ -34,5 +36,21 @@
   },
   "dependencies": {
     "postcss": "7.0.6"
+  },
+  "devDependencies": {
+    "buble": "0.19.6",
+    "buble-jest": "1.0.1",
+    "jest": "23.6.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "buble-jest"
+    }
+  },
+  "buble": {
+    "transform": {
+      "modules": true
+    },
+    "objectAssign": "Object.assign"
   }
 }

@@ -1,7 +1,7 @@
-const postcss = require('postcss')
-const fs = require('fs')
+import postcss from 'postcss'
+import fs from 'fs'
 
-module.exports = postcss.plugin('postcss-classes-to-mixins', (opts = {}) => {
+export default postcss.plugin('postcss-classes-to-mixins', (opts = {}) => {
   return (root, result) => {
     const cssArray = postcssToArray(root)
 
