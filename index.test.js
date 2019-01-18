@@ -3,15 +3,27 @@
 import postcss from 'postcss'
 import fs from 'fs'
 import util from 'util'
+import rimraf from 'rimraf'
 import classesToMixins from './'
 
 fs.readFile = util.promisify(fs.readFile)
 
+rimraf('/tmp/postcss-ctm*', () => {})
+
 describe('postcss-classes-to-mixins', () => {
+  test('files are written', () => {
+    return postcss([classesToMixins({ scss: '/tmp/out.scss', less: '/tmp/out.less', styl: '/tmp/out.styl' })])
+      .process(``, { from: undefined }).then((_) => {
+        expect(fs.existsSync('/tmp/out.scss')).toEqual(true)
+        expect(fs.existsSync('/tmp/out.less')).toEqual(true)
+        expect(fs.existsSync('/tmp/out.styl')).toEqual(true)
+      })
+  })
+
   test('scss mixin from simple class selector', () => {
-    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-out.scss' })])
+    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-simple.scss' })])
       .process(`.foo { bar: baz; }`, { from: undefined }).then((result) => {
-        return fs.readFile('/tmp/postcss-ctm-out.scss').then((scss) => {
+        return fs.readFile('/tmp/postcss-ctm-simple.scss').then((scss) => {
           scss = scss.toString().replace(/\s+/g, ' ')
           expect(scss).toBe(`@mixin foo { bar: baz; } `)
         })
@@ -19,9 +31,9 @@ describe('postcss-classes-to-mixins', () => {
   })
 
   test('less mixin from simple class selector', () => {
-    return postcss([classesToMixins({ less: '/tmp/postcss-ctm-out.less' })])
+    return postcss([classesToMixins({ less: '/tmp/postcss-ctm-simple.less' })])
       .process(`.foo { bar: baz; }`, { from: undefined }).then((result) => {
-        return fs.readFile('/tmp/postcss-ctm-out.less').then((less) => {
+        return fs.readFile('/tmp/postcss-ctm-simple.less').then((less) => {
           less = less.toString().replace(/\s+/g, ' ')
           expect(less).toBe(`.foo() { bar: baz; } `)
         })
@@ -29,9 +41,9 @@ describe('postcss-classes-to-mixins', () => {
   })
 
   test('stylus mixin from simple class selector', () => {
-    return postcss([classesToMixins({ styl: '/tmp/postcss-ctm-out.styl' })])
+    return postcss([classesToMixins({ styl: '/tmp/postcss-ctm-simple.styl' })])
       .process(`.foo { bar: baz; }`, { from: undefined }).then((result) => {
-        return fs.readFile('/tmp/postcss-ctm-out.styl').then((styl) => {
+        return fs.readFile('/tmp/postcss-ctm-simple.styl').then((styl) => {
           styl = styl.toString().replace(/\s+/g, ' ')
           expect(styl).toBe(`foo() { bar: baz; } `)
         })
@@ -39,9 +51,9 @@ describe('postcss-classes-to-mixins', () => {
   })
 
   test('scss mixin from complex class selector', () => {
-    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-out.scss' })])
+    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-complex.scss' })])
       .process(`tag.class[attribute="value"]:pseudo(:selector) { prop: value; }`, { from: undefined }).then((result) => {
-        return fs.readFile('/tmp/postcss-ctm-out.scss').then((scss) => {
+        return fs.readFile('/tmp/postcss-ctm-complex.scss').then((scss) => {
           scss = scss.toString().replace(/\s+/g, ' ')
           expect(scss).toBe(`@mixin class { @at-root tag#{&}[attribute="value"]:pseudo(:selector) { prop: value; } } `)
         })
@@ -49,9 +61,9 @@ describe('postcss-classes-to-mixins', () => {
   })
 
   test('less mixin from complex class selector', () => {
-    return postcss([classesToMixins({ less: '/tmp/postcss-ctm-out.less' })])
+    return postcss([classesToMixins({ less: '/tmp/postcss-ctm-complex.less' })])
       .process(`tag.class[attribute="value"]:pseudo(:selector) { prop: value; }`, { from: undefined }).then((result) => {
-        return fs.readFile('/tmp/postcss-ctm-out.less').then((less) => {
+        return fs.readFile('/tmp/postcss-ctm-complex.less').then((less) => {
           less = less.toString().replace(/\s+/g, ' ')
           expect(less).toBe(`.class() { tag&[attribute="value"]:pseudo(:selector) { prop: value; } } `)
         })
@@ -59,9 +71,9 @@ describe('postcss-classes-to-mixins', () => {
   })
 
   test('styl mixin from complex class selector', () => {
-    return postcss([classesToMixins({ styl: '/tmp/postcss-ctm-out.styl' })])
+    return postcss([classesToMixins({ styl: '/tmp/postcss-ctm-complex.styl' })])
       .process(`tag.class[attribute="value"]:pseudo(:selector) { prop: value; }`, { from: undefined }).then((result) => {
-        return fs.readFile('/tmp/postcss-ctm-out.styl').then((styl) => {
+        return fs.readFile('/tmp/postcss-ctm-complex.styl').then((styl) => {
           styl = styl.toString().replace(/\s+/g, ' ')
           expect(styl).toBe(`class() { tag&[attribute="value"]:pseudo(:selector) { prop: value; } } `)
         })

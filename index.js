@@ -1,13 +1,16 @@
 import postcss from 'postcss'
 import fs from 'fs'
+import util from 'util'
+
+fs.writeFile = util.promisify(fs.writeFile)
 
 export default postcss.plugin('postcss-classes-to-mixins', (opts = {}) => {
   return (root, result) => {
     const cssArray = postcssToArray(root)
 
-    Object.keys(opts).forEach((ext) =>
-      fs.writeFileSync(opts[ext], toString(nestRules(cssArray, ext)))
-    )
+    return Promise.all(Object.keys(opts).map((ext) =>
+      fs.writeFile(opts[ext], toString(nestRules(cssArray, ext)))
+    ))
   }
 })
 
