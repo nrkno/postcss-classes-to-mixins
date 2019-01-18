@@ -42,6 +42,7 @@ postcss([
     styl: 'style.styl', // String: stylus output
   })
 ]).process('style.css')
+.then((done) => console.log('done!'))
 ```
 
 This will write the output to the file paths specified.
