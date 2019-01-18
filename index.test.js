@@ -1,4 +1,4 @@
-/* global describe, test, expect */
+/* global describe, test, expect, beforeEach */
 
 import postcss from 'postcss'
 import fs from 'fs'
@@ -8,15 +8,15 @@ import classesToMixins from './'
 
 fs.readFile = util.promisify(fs.readFile)
 
-rimraf('/tmp/postcss-ctm*', () => {})
+beforeEach((done) => rimraf('/tmp/postcss-ctm*', done))
 
 describe('postcss-classes-to-mixins', () => {
   test('files are written', () => {
-    return postcss([classesToMixins({ scss: '/tmp/out.scss', less: '/tmp/out.less', styl: '/tmp/out.styl' })])
+    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm.scss', less: '/tmp/postcss-ctm.less', styl: '/tmp/postcss-ctm.styl' })])
       .process(``, { from: undefined }).then((_) => {
-        expect(fs.existsSync('/tmp/out.scss')).toEqual(true)
-        expect(fs.existsSync('/tmp/out.less')).toEqual(true)
-        expect(fs.existsSync('/tmp/out.styl')).toEqual(true)
+        expect(fs.existsSync('/tmp/postcss-ctm.scss')).toEqual(true)
+        expect(fs.existsSync('/tmp/postcss-ctm.less')).toEqual(true)
+        expect(fs.existsSync('/tmp/postcss-ctm.styl')).toEqual(true)
       })
   })
 
