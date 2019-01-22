@@ -36,7 +36,7 @@
     "url": "https://github.com/htor/postcss-classes-to-mixins/issues"
   },
   "dependencies": {
-    "postcss": "7.0.6"
+    "postcss": "7.0.14"
   },
   "devDependencies": {
     "buble": "0.19.6",
