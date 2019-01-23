@@ -18,8 +18,12 @@ function postcssToArray (root) {
   const rules = []
 
   root.nodes.forEach((node) => {
-    if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
-    if (node.type === 'rule') {
+    if (node.name === 'font-face') {
+      const style = node.nodes.reduce((acc, { prop, value }) => acc.concat([[prop, value]]), [])
+      rules.push([`@${node.name}`, style])
+    }
+    else if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
+    else if (node.type === 'rule') {
       const style = node.nodes.reduce((acc, { prop, value, important }) => {
         return acc.concat(prop ? [[prop, `${value}${important ? '!important' : ''}`]] : [])
       }, [])
