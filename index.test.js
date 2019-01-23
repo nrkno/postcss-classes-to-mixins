@@ -1,10 +1,10 @@
 /* global describe, test, expect, beforeEach */
 
-import postcss from 'postcss'
-import fs from 'fs'
-import util from 'util'
-import rimraf from 'rimraf'
-import classesToMixins from './'
+const postcss = require('postcss')
+const rimraf = require('rimraf')
+const util = require('util')
+const fs = require('fs')
+const classesToMixins = require('./index.js')
 
 fs.readFile = util.promisify(fs.readFile)
 

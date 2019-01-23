@@ -32,27 +32,11 @@
   "homepage": "https://github.com/nrkno/postcss-classes-to-mixins/",
   "author": "NRK <opensource@nrk.no> (https://www.nrk.no/)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/htor/postcss-classes-to-mixins/issues"
-  },
   "dependencies": {
     "postcss": "7.0.14"
   },
   "devDependencies": {
-    "buble": "0.19.6",
-    "buble-jest": "1.0.1",
     "jest": "23.6.0",
     "rimraf": "2.6.3"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "buble-jest"
-    }
-  },
-  "buble": {
-    "transform": {
-      "modules": true
-    },
-    "objectAssign": "Object.assign"
   }
 }
