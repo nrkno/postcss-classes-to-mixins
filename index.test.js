@@ -28,8 +28,8 @@ describe('postcss-classes-to-mixins', () => {
     return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-font.scss' })])
       .process(`@font-face { font-weight: 300; src: url('test.woff') }`, { from: undefined }).then((result) => {
         return fs.readFile('/tmp/postcss-ctm-font.scss').then((scss) => {
-          scss = scss.toString().replace(/\s+/g, '')
-          expect(scss).toBe(`@font-face{font-weight:300;src:url('test.woff');}`)
+          scss = scss.toString().replace(/\s+/g, ' ')
+          expect(scss).toBe(`@font-face { font-weight: 300; src: url('test.woff'); } `)
         })
       })
   })
