@@ -12,11 +12,25 @@ beforeEach((done) => rimraf('/tmp/postcss-ctm*', done))
 
 describe('postcss-classes-to-mixins', () => {
   test('files are written', () => {
-    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm.scss', less: '/tmp/postcss-ctm.less', styl: '/tmp/postcss-ctm.styl' })])
+    return postcss([classesToMixins({
+      scss: '/tmp/postcss-ctm.scss',
+      less: '/tmp/postcss-ctm.less',
+      styl: '/tmp/postcss-ctm.styl'
+    })])
       .process(``, { from: undefined }).then((_) => {
         expect(fs.existsSync('/tmp/postcss-ctm.scss')).toEqual(true)
         expect(fs.existsSync('/tmp/postcss-ctm.less')).toEqual(true)
         expect(fs.existsSync('/tmp/postcss-ctm.styl')).toEqual(true)
+      })
+  })
+
+  test.only('@font-face is kept', () => {
+    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-font.scss' })])
+      .process(`@font-face { font-weight: 300; src: url('test.woff') }`, { from: undefined }).then((result) => {
+        return fs.readFile('/tmp/postcss-ctm-font.scss').then((scss) => {
+          scss = scss.toString().replace(/\s+/g, ' ')
+          expect(scss).toBe(`@font-face { font-weight: 300; src: url('test.woff'); } `)
+        })
       })
   })
 

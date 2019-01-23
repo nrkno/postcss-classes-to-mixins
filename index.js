@@ -2,14 +2,14 @@ import postcss from 'postcss'
 import fs from 'fs'
 import util from 'util'
 
-fs.writeFile = util.promisify(fs.writeFile)
+const writeFile = util.promisify(fs.writeFile)
 
 export default postcss.plugin('postcss-classes-to-mixins', (opts = {}) => {
   return (root, result) => {
     const cssArray = postcssToArray(root)
 
     return Promise.all(Object.keys(opts).map((ext) =>
-      fs.writeFile(opts[ext], toString(nestRules(cssArray, ext)))
+      writeFile(opts[ext], toString(nestRules(cssArray, ext)))
     ))
   }
 })
@@ -18,8 +18,12 @@ function postcssToArray (root) {
   const rules = []
 
   root.nodes.forEach((node) => {
-    if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
-    if (node.type === 'rule') {
+    if (node.type === 'atrule' && node.name === 'font-face') {
+      const style = node.nodes.reduce((acc, { prop, value }) => acc.concat([[prop, value]]), [])
+      rules.push([`@${node.name}`, style])
+    }
+    else if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
+    else if (node.type === 'rule') {
       const style = node.nodes.reduce((acc, { prop, value, important }) => {
         return acc.concat(prop ? [[prop, `${value}${important ? '!important' : ''}`]] : [])
       }, [])
