@@ -34,15 +34,15 @@ Output:
 ```js
 import postcss from 'postcss'
 import classesToMixins from 'postcss-classes-to-mixins'
+import fs from 'fs'
 
-const fs = require('fs)
 const css = fs.readFileSync('style.css')
 
 postcss([
   classesToMixins({     // Object: options
     scss: 'style.scss', // String: sass output
-    less: 'style.less'  // String: less output
-    styl: 'style.styl', // String: stylus output
+    less: 'style.less',  // String: less output
+    styl: 'style.styl' // String: stylus output
   })
 ]).process(css, {from: 'undefined'})
 .then((done) => console.log('done!'))
