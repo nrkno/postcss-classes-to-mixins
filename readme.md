@@ -42,7 +42,8 @@ postcss([
   classesToMixins({     // Object: options
     scss: 'style.scss', // String: sass output
     less: 'style.less',  // String: less output
-    styl: 'style.styl' // String: stylus output
+    styl: 'style.styl', // String: stylus output
+    mixinsOnly: false // Defaults to false. true strips all non-classname selectors (like `body` etc.)
   })
 ]).process(css, {from: 'undefined'})
 .then((done) => console.log('done!'))
