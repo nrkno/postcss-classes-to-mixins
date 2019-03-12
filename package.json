@@ -7,20 +7,6 @@
     "type": "git",
     "url": "git+https://github.com/nrkno/postcss-classes-to-mixins.git"
   },
-  "keywords": [
-    "postcss",
-    "css",
-    "postcss-plugin",
-    "css",
-    "class",
-    "classes",
-    "mixin",
-    "mixins",
-    "sass",
-    "less",
-    "stylus",
-    "plugin"
-  ],
   "scripts": {
     "publish:patch": "npm version patch -m 'Release patch %s'",
     "publish:minor": "npm version minor -m 'Release minor %s'",
@@ -36,7 +22,21 @@
     "postcss": "7.0.14"
   },
   "devDependencies": {
-    "jest": "23.6.0",
+    "jest": "24.5.0",
     "rimraf": "2.6.3"
-  }
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "css",
+    "class",
+    "classes",
+    "mixin",
+    "mixins",
+    "sass",
+    "less",
+    "stylus",
+    "plugin"
+  ]
 }

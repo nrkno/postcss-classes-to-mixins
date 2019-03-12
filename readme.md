@@ -34,6 +34,9 @@ Output:
 ```js
 import postcss from 'postcss'
 import classesToMixins from 'postcss-classes-to-mixins'
+import fs from 'fs'
+
+const css = fs.readFileSync('style.css')
 
 postcss([
   classesToMixins({     // Object: options
@@ -41,7 +44,7 @@ postcss([
     less: 'style.less',  // String: less output
     styl: 'style.styl' // String: stylus output
   })
-]).process('style.css')
+]).process(css, {from: 'undefined'})
 .then((done) => console.log('done!'))
 ```
 

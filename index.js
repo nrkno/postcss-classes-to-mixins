@@ -64,7 +64,7 @@ function nestRules (rules, target, nested = [], mediaQuery = false) {
       if (mediaQuery) ruleset = [[mediaQuery, ruleset]]
 
       parent[1].push(...ruleset)
-    } else {
+    } else if(selector === '@font-face') {
       nested.push([selector, rule])
     }
   })
