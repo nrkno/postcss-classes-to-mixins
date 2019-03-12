@@ -7,10 +7,16 @@ const writeFile = util.promisify(fs.writeFile)
 module.exports = postcss.plugin('postcss-classes-to-mixins', (opts = {}) => {
   return (root, result) => {
     const cssArray = postcssToArray(root)
+    const targets = ['scss', 'less', 'styl']
 
-    return Promise.all(Object.keys(opts).map((ext) =>
-      writeFile(opts[ext], toString(nestRules(cssArray, ext)))
-    ))
+    return Promise.all(targets
+      .filter((ext) => typeof opts[ext] === 'string')
+      .map((ext) => writeFile(opts[ext], toString(nestRules({
+        rules: cssArray,
+        target: ext,
+        mixinsOnly: opts.mixinsOnly
+      }))))
+    )
   }
 })
 
@@ -36,12 +42,12 @@ function postcssToArray (root) {
   return rules
 }
 
-function nestRules (rules, target, nested = [], mediaQuery = false) {
+function nestRules ({rules, target, nested = [], mediaQuery = false, mixinsOnly = false}) {
   rules.forEach(([selector, rule]) => {
     const isAtRule = selector.match(/@(media|supports)/)
     const className = selector.match(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/)
 
-    if (isAtRule) nestRules(rule, target, nested, selector)
+    if (isAtRule) nestRules({rules: rule, mediaQuery: selector, target, nested, mixinsOnly})
     else if (className) {
       let ruleset = rule
       let mixin = className[0].slice(1)
@@ -64,7 +70,7 @@ function nestRules (rules, target, nested = [], mediaQuery = false) {
       if (mediaQuery) ruleset = [[mediaQuery, ruleset]]
 
       parent[1].push(...ruleset)
-    } else if(selector === '@font-face') {
+    } else if(!mixinsOnly) {
       nested.push([selector, rule])
     }
   })
