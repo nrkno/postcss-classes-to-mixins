@@ -33,6 +33,16 @@ describe('postcss-classes-to-mixins', () => {
       })
   })
 
+  test('non-classes are skipped', () => {
+    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-only-class.scss' })])
+      .process(`.foo { bar: baz; } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } }`, { from: undefined }).then((result) => {
+        return readFile('/tmp/postcss-ctm-only-class.scss').then((scss) => {
+          scss = scss.toString().replace(/\s+/g, ' ')
+          expect(scss).toBe(`@mixin foo { bar: baz; } `)
+        })
+      })
+  })
+
   test('scss mixin from simple class selector', () => {
     return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-simple.scss' })])
       .process(`.foo { bar: baz; }`, { from: undefined }).then((result) => {
