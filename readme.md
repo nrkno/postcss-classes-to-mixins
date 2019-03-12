@@ -10,7 +10,7 @@ npm install postcss-classes-to-mixins
 
 ## Example
 
-Input: 
+Input:
 
 ```css
 /* style.css */
@@ -35,13 +35,16 @@ Output:
 import postcss from 'postcss'
 import classesToMixins from 'postcss-classes-to-mixins'
 
-postcss([  
+const fs = require('fs)
+const css = fs.readFileSync('style.css')
+
+postcss([
   classesToMixins({     // Object: options
     scss: 'style.scss', // String: sass output
     less: 'style.less'  // String: less output
     styl: 'style.styl', // String: stylus output
   })
-]).process('style.css')
+]).process(css, {from: 'undefined'})
 .then((done) => console.log('done!'))
 ```
 
@@ -64,15 +67,15 @@ Now, import the exported stylesheet and start using the mixins:
 
 ## Why?
 
-When sharing CSS between projects you often want to distribute it so people can consume it in Sass, Less and Stylus. 
+When sharing CSS between projects you often want to distribute it so people can consume it in Sass, Less and Stylus.
 This can be tricky without maintaining separate versions of the code written in each of these languages. Also,
-when loading different versions of the same stylesheet globally (by widgets on the same page) name space collisions 
+when loading different versions of the same stylesheet globally (by widgets on the same page) name space collisions
 will eventually occur, resulting in styling errors.
 
 This plugin will solve that:
 
-- Versioning: Class names from the exported CSS are no longer global and won't collide with each other. 
-Instead they are built into your own classes by extending them. This also makes your HTML more clean, as you don't need to use several 
+- Versioning: Class names from the exported CSS are no longer global and won't collide with each other.
+Instead they are built into your own classes by extending them. This also makes your HTML more clean, as you don't need to use several
 classes (`class="standard-btn red-btn my-btn"`) to style one thing.
 
 - Three shaking: Using mixins you only include the styles that you actually use in your project, which is nice
