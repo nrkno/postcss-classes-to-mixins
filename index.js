@@ -45,7 +45,6 @@ function postcssToArray (root) {
 function nestRules ({rules, target, nested = [], mediaQuery = false, mixinsOnly = false}) {
   rules.forEach(([selector, rule]) => {
     const isAtRule = selector.match(/@(media|supports)/)
-    const isKeyframes = selector.indexOf('@keyframes') === 0
     const className = selector.match(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/)
     let ruleset = rule
 
