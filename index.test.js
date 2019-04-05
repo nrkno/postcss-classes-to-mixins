@@ -35,9 +35,9 @@ describe('postcss-classes-to-mixins', () => {
 
   test('keep tags if not mixinsOnly', () => {
     return postcss([classesToMixins({
-        mixinsOnly: false,
-        scss: '/tmp/postcss-ctm-only-class.scss'
-      })])
+      mixinsOnly: false,
+      scss: '/tmp/postcss-ctm-only-class.scss'
+    })])
       .process(`.foo { bar: baz; animation: test 1s } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } .foo { some: thing; } } @keyframes test { from { opacity: 0 } } @keyframes unused { from { opacity: 0 } } @supports (display: grid) { .foo { display: grid; } }`, { from: undefined }).then((result) => {
         return readFile('/tmp/postcss-ctm-only-class.scss').then((scss) => {
           scss = scss.toString().replace(/\s+/g, ' ')
@@ -48,9 +48,9 @@ describe('postcss-classes-to-mixins', () => {
 
   test('skip tags if mixinsOnly', () => {
     return postcss([classesToMixins({
-        mixinsOnly: true,
-        scss: '/tmp/postcss-ctm-only-class.scss'
-      })])
+      mixinsOnly: true,
+      scss: '/tmp/postcss-ctm-only-class.scss'
+    })])
       .process(`.foo { bar: baz; animation: test 1s; } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } .foo { some: thing; } } @keyframes test { from { opacity: 0 } } @keyframes unused { from { opacity: 0 } } @supports (display: grid) { .foo { display: grid; } }`, { from: undefined }).then((result) => {
         return readFile('/tmp/postcss-ctm-only-class.scss').then((scss) => {
           scss = scss.toString().replace(/\s+/g, ' ')

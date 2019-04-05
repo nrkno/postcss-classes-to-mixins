@@ -27,8 +27,7 @@ function postcssToArray (root) {
     if (node.type === 'atrule' && node.name === 'font-face') {
       const style = node.nodes.reduce((acc, { prop, value }) => acc.concat([[prop, value]]), [])
       rules.push([`@${node.name}`, style])
-    }
-    else if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
+    } else if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
     else if (node.type === 'rule') {
       const style = node.nodes.reduce((acc, { prop, value, important }) => {
         return acc.concat(prop ? [[prop, `${value}${important ? '!important' : ''}`]] : [])
@@ -42,13 +41,13 @@ function postcssToArray (root) {
   return rules
 }
 
-function nestRules ({rules, target, nested = [], mediaQuery = false, mixinsOnly = false}) {
+function nestRules ({ rules, target, nested = [], mediaQuery = false, mixinsOnly = false }) {
   rules.forEach(([selector, rule]) => {
     const isAtRule = selector.match(/@(media|supports)/)
     const className = selector.match(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/)
     let ruleset = rule
 
-    if (isAtRule) nestRules({rules: rule, mediaQuery: selector, target, nested, mixinsOnly})
+    if (isAtRule) nestRules({ rules: rule, mediaQuery: selector, target, nested, mixinsOnly })
     else if (className) {
       let mixin = className[0].slice(1)
       switch (target) {

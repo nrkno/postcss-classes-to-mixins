@@ -12,7 +12,7 @@
     "publish:minor": "npm version minor -m 'Release minor %s'",
     "publish:major": "npm version major -m 'Release major %s'",
     "postversion": "git push && git push --tags && npm publish",
-    "test": "jest",
+    "test": "standard && jest",
     "test:watch": "jest --watch"
   },
   "homepage": "https://github.com/nrkno/postcss-classes-to-mixins/",
@@ -23,7 +23,8 @@
   },
   "devDependencies": {
     "jest": "24.5.0",
-    "rimraf": "2.6.3"
+    "rimraf": "2.6.3",
+    "standard": "^12.0.1"
   },
   "keywords": [
     "postcss",
