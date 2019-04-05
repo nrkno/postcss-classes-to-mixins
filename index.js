@@ -27,9 +27,9 @@ function postcssToArray (root) {
     if (node.type === 'atrule' && node.name === 'font-face') {
       const style = node.nodes.reduce((acc, { prop, value }) => acc.concat([[prop, value]]), [])
       rules.push([`@${node.name}`, style])
-    }
-    else if (node.type === 'atrule') rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
-    else if (node.type === 'rule') {
+    } else if (node.type === 'atrule') {
+      rules.push([`@${node.name} ${node.params}`, postcssToArray(node)])
+    } else if (node.type === 'rule') {
       const style = node.nodes.reduce((acc, { prop, value, important }) => {
         return acc.concat(prop ? [[prop, `${value}${important ? '!important' : ''}`]] : [])
       }, [])
@@ -42,14 +42,14 @@ function postcssToArray (root) {
   return rules
 }
 
-function nestRules ({rules, target, nested = [], mediaQuery = false, mixinsOnly = false}) {
+function nestRules ({ rules, target, nested = [], mediaQuery = false, mixinsOnly = false }) {
   rules.forEach(([selector, rule]) => {
     const isAtRule = selector.match(/@(media|supports)/)
     const className = selector.match(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/)
+    let ruleset = rule
 
-    if (isAtRule) nestRules({rules: rule, mediaQuery: selector, target, nested, mixinsOnly})
+    if (isAtRule) nestRules({ rules: rule, mediaQuery: selector, target, nested, mixinsOnly })
     else if (className) {
-      let ruleset = rule
       let mixin = className[0].slice(1)
       switch (target) {
         case 'styl': mixin = `${mixin}()`; break
@@ -67,11 +67,20 @@ function nestRules ({rules, target, nested = [], mediaQuery = false, mixinsOnly 
         ruleset = [[`&${suffix}`, rule]]
       }
 
-      if (mediaQuery) ruleset = [[mediaQuery, ruleset]]
+      // Include keyframes
+      rule.forEach(([name, props]) => {
+        if (name.indexOf('animation') === 0) {
+          const keyName = `@keyframes ${props.match(/\b[\w-]+\b/)}`
+          const keyRule = rules.filter(([name]) => name === keyName)[0]
+          if (keyRule) ruleset.push(keyRule)
+        }
+      })
 
+      if (mediaQuery) ruleset = [[mediaQuery, ruleset]]
       parent[1].push(...ruleset)
-    } else if(!mixinsOnly) {
-      nested.push([selector, rule])
+    } else if (!mixinsOnly) {
+      if (mediaQuery) ruleset = [[mediaQuery, ruleset]]
+      nested.push([selector, ruleset])
     }
   })
 

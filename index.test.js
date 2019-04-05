@@ -35,26 +35,26 @@ describe('postcss-classes-to-mixins', () => {
 
   test('keep tags if not mixinsOnly', () => {
     return postcss([classesToMixins({
-        mixinsOnly: false,
-        scss: '/tmp/postcss-ctm-only-class.scss'
-      })])
-      .process(`.foo { bar: baz; } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } }`, { from: undefined }).then((result) => {
+      mixinsOnly: false,
+      scss: '/tmp/postcss-ctm-only-class.scss'
+    })])
+      .process(`.foo { bar: baz; animation: test 1s } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } .foo { some: thing; } } @keyframes test { from { opacity: 0 } } @keyframes unused { from { opacity: 0 } } @supports (display: grid) { .foo { display: grid; } }`, { from: undefined }).then((result) => {
         return readFile('/tmp/postcss-ctm-only-class.scss').then((scss) => {
           scss = scss.toString().replace(/\s+/g, ' ')
-          expect(scss).toBe(`@mixin foo { bar: baz; } [hidden] { display: none; } body { color: red; } html { color: blue; } `)
+          expect(scss).toBe(`@mixin foo { bar: baz; animation: test 1s; @keyframes test { from { opacity: 0; } } @media (min-width:500px) { some: thing; } @supports (display: grid) { display: grid; } } [hidden] { display: none; } body { color: red; } html { @media (min-width:500px) { color: blue; } } @keyframes test { from { opacity: 0; } } @keyframes unused { from { opacity: 0; } } `)
         })
       })
   })
 
   test('skip tags if mixinsOnly', () => {
     return postcss([classesToMixins({
-        mixinsOnly: true,
-        scss: '/tmp/postcss-ctm-only-class.scss'
-      })])
-      .process(`.foo { bar: baz; } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } }`, { from: undefined }).then((result) => {
+      mixinsOnly: true,
+      scss: '/tmp/postcss-ctm-only-class.scss'
+    })])
+      .process(`.foo { bar: baz; animation: test 1s; } [hidden] { display: none } body { color: red } @media (min-width:500px) { html { color: blue } .foo { some: thing; } } @keyframes test { from { opacity: 0 } } @keyframes unused { from { opacity: 0 } } @supports (display: grid) { .foo { display: grid; } }`, { from: undefined }).then((result) => {
         return readFile('/tmp/postcss-ctm-only-class.scss').then((scss) => {
           scss = scss.toString().replace(/\s+/g, ' ')
-          expect(scss).toBe(`@mixin foo { bar: baz; } `)
+          expect(scss).toBe(`@mixin foo { bar: baz; animation: test 1s; @keyframes test { from { opacity: 0; } } @media (min-width:500px) { some: thing; } @supports (display: grid) { display: grid; } } `)
         })
       })
   })
