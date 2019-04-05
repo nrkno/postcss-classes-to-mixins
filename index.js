@@ -49,9 +49,8 @@ function nestRules ({rules, target, nested = [], mediaQuery = false, mixinsOnly 
     const className = selector.match(/\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*/)
     let ruleset = rule
 
-    if (isAtRule) {
-      nestRules({rules: rule, mediaQuery: selector, target, nested, mixinsOnly})
-    } else if (className) {
+    if (isAtRule) nestRules({rules: rule, mediaQuery: selector, target, nested, mixinsOnly})
+    else if (className) {
       let mixin = className[0].slice(1)
       switch (target) {
         case 'styl': mixin = `${mixin}()`; break
