@@ -1,4 +1,4 @@
-# postcss-classes-to-mixins [![Build Status][ci-img]][ci]
+# postcss-classes-to-mixins
 
 > [PostCSS] plugin to intelligently convert CSS classes to SASS, Less and Stylus mixins.
 
