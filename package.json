@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "jest": "24.8.0",
-    "rimraf": "2.6.3",
+    "rimraf": "3.0.0",
     "standard": "13.1.0"
   },
   "keywords": [
