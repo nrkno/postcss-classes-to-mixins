@@ -1,4 +1,4 @@
-# postcss-classes-to-mixins [![Build Status](https://travis-ci.com/nrkno/postcss-classes-to-mixins.svg?branch=master)](https://travis-ci.com/nrkno/postcss-classes-to-mixins)
+# postcss-classes-to-mixins
 
 > [PostCSS] plugin to intelligently convert CSS classes to SASS, Less and Stylus mixins.
 
@@ -83,6 +83,3 @@ classes (`class="standard-btn red-btn my-btn"`) to style one thing.
 for load. Loading the entire stylesheet globally (several times for each widget) is wasteful and not nice.
 
 [PostCSS]: https://github.com/postcss/postcss
-[ci-img]:  https://travis-ci.org/nrkno/postcss-classes-to-mixins.svg
-[ci]:      https://travis-ci.org/nrkno/postcss-classes-to-mixins
-
