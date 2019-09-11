@@ -1,4 +1,4 @@
-name: core-analytics
+name: postcss-classes-to-mixins
 on: push
 jobs:
   test:
