@@ -1,0 +1,24 @@
+version: 2
+registries:
+  npm-registry-registry-npmjs-org:
+    type: npm-registry
+    url: https://registry.npmjs.org
+    token: "${{secrets.NPM_REGISTRY_REGISTRY_NPMJS_ORG_TOKEN}}"
+
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "02:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: postcss
+    versions:
+    - 8.2.2
+    - 8.2.4
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  registries:
+  - npm-registry-registry-npmjs-org
