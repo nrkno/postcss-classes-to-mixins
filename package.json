@@ -22,7 +22,7 @@
     "postcss": "^7.0.27"
   },
   "devDependencies": {
-    "jest": "^25.1.0",
+    "jest": "^27.0.6",
     "rimraf": "^3.0.2",
     "standard": "^14.3.3"
   },
