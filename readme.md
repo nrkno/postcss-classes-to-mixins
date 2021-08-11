@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-npm install postcss-classes-to-mixins
+npm install --save-dev postcss postcss-classes-to-mixins
 ```
 
 ## Example

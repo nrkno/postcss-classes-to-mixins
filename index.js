@@ -1,24 +1,29 @@
-const postcss = require('postcss')
 const util = require('util')
 const fs = require('fs')
 
 const writeFile = util.promisify(fs.writeFile)
 
-module.exports = postcss.plugin('postcss-classes-to-mixins', (opts = {}) => {
-  return (root, result) => {
-    const cssArray = postcssToArray(root)
-    const targets = ['scss', 'less', 'styl']
+module.exports = (opts = {}) => {
+  return {
+    postcssPlugin: 'postcss-classes-to-mixins',
+    Once (root, { result }) {
+      const cssArray = postcssToArray(root)
+      const targets = ['scss', 'less', 'styl']
 
-    return Promise.all(targets
-      .filter((ext) => typeof opts[ext] === 'string')
-      .map((ext) => writeFile(opts[ext], toString(nestRules({
-        rules: cssArray,
-        target: ext,
-        mixinsOnly: opts.mixinsOnly
-      }))))
-    )
+      return Promise.all(targets
+        .filter((ext) => typeof opts[ext] === 'string')
+        .map((ext) => writeFile(opts[ext], toString(nestRules({
+          rules: cssArray,
+          target: ext,
+          mixinsOnly: opts.mixinsOnly
+        }))))
+      )
+    }
   }
-})
+}
+
+// Allow PostCSS to distinguish between require('plugin') and require('plugin')(opts) end-user calls
+module.exports.postcss = true
 
 function postcssToArray (root) {
   const rules = []

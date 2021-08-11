@@ -18,13 +18,14 @@
   "homepage": "https://github.com/nrkno/postcss-classes-to-mixins/",
   "author": "NRK <opensource@nrk.no> (https://www.nrk.no/)",
   "license": "MIT",
-  "dependencies": {
-    "postcss": "^7.0.27"
-  },
   "devDependencies": {
-    "jest": "^25.1.0",
-    "rimraf": "^3.0.2",
-    "standard": "^14.3.3"
+    "jest": "27.0.6",
+    "postcss": "^8.3.6",
+    "rimraf": "3.0.2",
+    "standard": "16.0.3"
+  },
+  "peerDependencies": {
+    "postcss": "^8.3.6"
   },
   "keywords": [
     "postcss",
