@@ -23,6 +23,16 @@ describe('postcss-classes-to-mixins', () => {
       })
   })
 
+  test('@charset is kept verbatim', () => {
+    return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-font.scss' })])
+      .process('@charset "UTF-8";', { from: undefined }).then((result) => {
+        return readFile('/tmp/postcss-ctm-font.scss').then((scss) => {
+          scss = scss.toString().replace(/\s+/g, ' ')
+          expect(scss).toBe('@charset "UTF-8"; ')
+        })
+      })
+  })
+
   test('@font-face is kept', () => {
     return postcss([classesToMixins({ scss: '/tmp/postcss-ctm-font.scss' })])
       .process('@font-face { font-weight: 300; src: url("test.woff") }', { from: undefined }).then((result) => {
