@@ -19,10 +19,10 @@
   "author": "NRK <opensource@nrk.no> (https://www.nrk.no/)",
   "license": "MIT",
   "devDependencies": {
-    "jest": "27.0.6",
-    "postcss": "^8.3.6",
+    "jest": "28.1.1",
+    "postcss": "8.4.14",
     "rimraf": "3.0.2",
-    "standard": "16.0.3"
+    "standard": "17.0.0"
   },
   "peerDependencies": {
     "postcss": "^8.3.6"
