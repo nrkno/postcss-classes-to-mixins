@@ -28,8 +28,10 @@ module.exports.postcss = true
 function postcssToArray (root) {
   const rules = []
 
-  root.nodes.forEach((node) => {
-    if (node.type === 'atrule' && node.name === 'font-face') {
+  root.nodes?.forEach((node) => {
+    if (node.type === 'atrule' && node.name === 'charset') {
+      rules.push([`@${node.name} ${node.params}`, ''])
+    } else if (node.type === 'atrule' && node.name === 'font-face') {
       const style = node.nodes.reduce((acc, { prop, value }) => acc.concat([[prop, value]]), [])
       rules.push([`@${node.name}`, style])
     } else if (node.type === 'atrule') {
@@ -94,6 +96,7 @@ function nestRules ({ rules, target, nested = [], mediaQuery = false, mixinsOnly
 
 function toString (rules, pad = '') {
   return rules.map(([key, val]) => {
+    if (typeof key === 'string' && key.startsWith('@charset ')) return `${pad}${key};\n`
     if (typeof val === 'string') return `${pad}${key}: ${val};\n`
     return `${pad}${key} {\n${toString(val, pad + '  ')}${pad}}\n`
   }).join('')
