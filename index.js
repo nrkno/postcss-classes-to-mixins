@@ -72,6 +72,14 @@ function nestRules ({ rules, target, nested = [], mediaQuery = false, mixinsOnly
         else ruleset = [[`@at-root ${prefix}#{&}${suffix.replace('&', '#{&}')}`, rule]]
       } else if (suffix) {
         ruleset = [[`&${suffix}`, rule]]
+      }else {
+        // https://sass-lang.com/documentation/breaking-changes/mixed-decls/
+        if(target === 'scss') {
+          const isNestedSelector = parent[1].some(([selector]) => selector.startsWith('&'));
+          if(isNestedSelector) {
+            ruleset = [['&', rule]]
+          }
+        }
       }
 
       // Include keyframes
