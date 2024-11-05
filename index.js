@@ -76,7 +76,7 @@ function nestRules ({ rules, target, nested = [], mediaQuery = false, mixinsOnly
         if (target === 'scss') {
           // https://sass-lang.com/documentation/breaking-changes/mixed-decls/
           // If appending plain rule following any nested rules, it must be wrapped in a & {} block
-          const parentRuleset = parent?.[1];
+          const parentRuleset = parent?.[1]
           const hasNestedSelector = Array.isArray(parentRuleset) && parentRuleset.some(([selector]) => selector.startsWith('&'))
           if (hasNestedSelector) {
             ruleset = [['&', rule]]
